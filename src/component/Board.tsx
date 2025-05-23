@@ -1,6 +1,8 @@
 import {
+  closestCenter,
   DndContext,
   DragOverlay,
+  MouseSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
@@ -161,19 +163,17 @@ export default function Board() {
       })
     );
   }
-  const pointerSensor = useSensor(PointerSensor, {
+  const touchSensor = useSensor(TouchSensor, {
+    // Press delay of 250ms, with tolerance of 5px of movement
     activationConstraint: {
-      distance: 10,
+      delay: 250,
+      tolerance: 5,
     },
   });
-  const touchSensor = useSensor(TouchSensor, {
-  activationConstraint: {
-    delay: 150,
-    tolerance: 5,
-  },
-});
-const sensors = useSensors(pointerSensor, touchSensor);
-
+  const sensors = useSensors(
+    useSensor(MouseSensor),
+   touchSensor,
+  );
   function handleDragEndColumn(event: any) {
     let { active, over } = event;
     const oldIndex = columns.findIndex((col) => col.id === active.id);
@@ -302,9 +302,9 @@ const sensors = useSensors(pointerSensor, touchSensor);
       <div
         style={{
           backgroundImage:
-            background.length > 10 ? `url(${background})` : "none",
+          background.length > 10 ? `url(${background})` : "none",
           backgroundColor:
-            background.length <= 10 ? hexToRGBA(background) : undefined,
+          background.length <= 10 ? hexToRGBA(background) : undefined,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -314,6 +314,7 @@ const sensors = useSensors(pointerSensor, touchSensor);
         className="flex overflow-x-scroll object-fill h-full w-full scroll-container"
       >
         <DndContext
+          collisionDetection={closestCenter}
           sensors={sensors}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}

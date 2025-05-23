@@ -21,7 +21,7 @@ return (
           </Route>
 
           {/* Các route cần đăng nhập */}
-          <Route element={<ProtectedRoute />}>
+          <Route >
             <Route path="/" element={<ManagerBoard />} />
             <Route path="/:id" element={<Board />} />
           </Route>

@@ -110,13 +110,13 @@ export default function Column({ column, addValue }: any) {
                 />
               </div>
             </div>
-            <SortableContext
-              items={column?.listTask?.map((t: any) => t.id)}
-              strategy={verticalListSortingStrategy}
+            <div
+              id="drop-zone"
+              className="drop-zone box-todo overflow-y-scroll px-1 max-h-[330px] scroll-container"
             >
-              <div
-                id="drop-zone"
-                className="drop-zone box-todo overflow-y-scroll px-1 max-h-[330px] scroll-container"
+              <SortableContext
+                items={column?.listTask?.map((t: any) => t.id)}
+                strategy={verticalListSortingStrategy}
               >
                 {column?.listTask?.map((item: TaskType) => (
                   <Task
@@ -126,8 +126,9 @@ export default function Column({ column, addValue }: any) {
                     task={item}
                   />
                 ))}
-              </div>
-            </SortableContext>
+              </SortableContext>
+            </div>
+
 
             {!stateAdd ? (
               <div
