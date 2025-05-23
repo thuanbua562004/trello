@@ -2,6 +2,7 @@ import {
   DndContext,
   DragOverlay,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -165,8 +166,9 @@ export default function Board() {
       distance: 10,
     },
   });
-  const sensors = useSensors(pointerSensor);
-
+const sensors = useSensors(
+  useSensor(TouchSensor)
+);
   function handleDragEndColumn(event: any) {
     let { active, over } = event;
     const oldIndex = columns.findIndex((col) => col.id === active.id);
