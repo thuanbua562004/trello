@@ -6,6 +6,8 @@ import {
   addTask,
   fetchColum,
   getBoards,
+  removeColumn,
+  removeTask,
   updateColum,
   updateTask,
 } from "../hook/databse";
@@ -50,7 +52,6 @@ export const fetchColumRedux = createAsyncThunk(
 );
 
 export const addColumRedux = createAsyncThunk("addColum",async (data: Column): Promise<Column> => {
-    console.log(data)
     const columId = `${data.id}_${genIdRandom()}`;
 
     await addColum(columId,data.name,data.color );
@@ -81,6 +82,15 @@ export const updateColumRedux = createAsyncThunk("updateColum",async (data: Colu
     return data
   }
 );
+
+export const removeColumRedux = createAsyncThunk('removeColumn', async (id: string): Promise<{id:string}> => {
+    await removeColumn(id);
+    return {id}
+}
+);
+
+
+
 export const addTaskRedux = createAsyncThunk(
   "addTask",
   async (data: TaskType): Promise<TaskType> => {
@@ -103,6 +113,14 @@ export const updateTaskRedux = createAsyncThunk<UpdateTaskArg, UpdateTaskArg>("u
     return { idCol, idTask, data };
   }
 );
+
+export const removeTaskRedux = createAsyncThunk("removeTask",async ({ idCol, idTask }: { idCol: string; idTask: string }): Promise<{ idCol: string; idTask: string }> => {
+    await removeTask(idCol , idTask)
+    return { idCol, idTask };
+  }
+);
+
+
 
 // =================== SLICE ====================
 export const managerdata = createSlice({
@@ -215,6 +233,30 @@ export const managerdata = createSlice({
         console.error("Lỗi khi thêm cột:", action.error.message);
       })
       
+
+      .addCase(removeColumRedux.fulfilled,(state , action)=>{
+          state.Colum = state.Colum.filter((item)=>item.id!== action.payload.id)
+      })
+      .addCase(removeColumRedux.rejected, (state, action) => {
+        console.error("Lỗi khi thêm cột:", action.error.message);
+      })
+
+      .addCase(removeTaskRedux.fulfilled,(state , action)=>{
+        state.Colum = state.Colum.map((item)=>{
+          if(item.id == action.payload.idCol){
+              return {...item , listTask : item.listTask?.filter((task)=>task.id!== action.payload.idTask)}
+          }
+          return item
+        })  
+        
+      })
+      .addCase(removeTaskRedux.rejected, (state, action) => {
+        console.error("Lỗi khi thêm cột:", action.error.message);
+      })
+
+
+
+
       ;
   },
 });

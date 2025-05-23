@@ -46,14 +46,14 @@ const imageIds = [
   }
   return (
     <>
-<div ref={refSettingBoard} className={`z-30 max-w-xs w-full mx-auto p-3 fixed top-1/2 left-1/2 transform -translate-x-1/2
+<div ref={refSettingBoard} className={`dark:bg-bg-dark shadow-xl z-30 max-w-xs w-full mx-auto p-3 fixed top-1/2 left-1/2 transform -translate-x-1/2
   ease-out duration-200    ${stateSetting ? "-translate-y-1/2 opacity-100" : "translate-y-[500px] opacity-0 pointer-events-none"} shadow-lg rounded-lg bg-white`}>
   {/* Header */}
   <div className="flex items-center justify-between mb-2">
     <button aria-label="Back" className="text-gray-400 hover:text-gray-600">
       <i className="fas fa-chevron-left text-base"></i>
     </button>
-    <h1 className="text-center flex-grow text-gray-700 font-semibold text-base">
+    <h1 className=" text-center flex-grow text-gray-700 font-semibold text-base">
       Tạo bảng
     </h1>
     <button aria-label="Close" className="text-gray-400 hover:text-gray-600">
@@ -96,7 +96,7 @@ const imageIds = [
     <div>
       <label
         htmlFor="title"
-        className="block text-gray-800 font-medium mb-1 text-sm"
+        className="block dark:bg-bg-dark text-gray-800 font-medium mb-1 text-sm"
       >
         Tiêu đề bảng <span className="text-red-600">*</span>
       </label>
@@ -105,12 +105,12 @@ const imageIds = [
         id="title"
         placeholder="Tiêu đề bảng"
         required
-        className="w-full border border-red-600 rounded-md px-2 py-1.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
+        className="dark:bg-bg-dark w-full border border-red-600 rounded-md px-2 py-1.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
         type="text"
       />
     </div>
     <p className="text-gray-700 text-xs flex items-center gap-1">
-      <span className="text-xl select-none">👋</span> Tiêu đề bảng là bắt buộc
+      <span className="dark:bg-bg-dark text-xl select-none">👋</span> Tiêu đề bảng là bắt buộc
     </p>
     <div>
       <label
@@ -121,7 +121,7 @@ const imageIds = [
       </label>
       <select
         id="view-permission"
-        className="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="w-full border dark:bg-bg-dark hover:bg-gray-400 border-gray-300 rounded-md px-2 py-1.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
       >
         <option>Không gian làm việc</option>
       </select>
@@ -129,7 +129,7 @@ const imageIds = [
     <button
       disabled={formCreate.name==""? true : false}
       onClick={submitCreate}
-      className="w-full bg-gray-300 text-back font-medium py-1.5 rounded-md text-sm "
+      className="w-full cursor-pointer hover:bg-gray-400 bg-gray-300 text-back font-medium py-1.5 rounded-md text-sm "
     >
       Tạo mới
     </button>

@@ -331,20 +331,20 @@ export default function Board() {
           </DragOverlay>
         </DndContext>
 
-          <div className="w-[272px] h-fit rounded-md mt-4  p-2">
+          <div className="dark:bg-bg-dark w-[272px] h-fit rounded-md mt-4  p-2 mr-20">
             {stateAddColum ? (
               <div className="w-[272px] ">
                 <form className="outline-none" onSubmit={hanlerAddColum}>
                   <input
                     name="nameColum"
-                    className="w-full border outline-none focus:border-red-500 rounded-lg p-2"
+                    className="dark:bg-bg-dark w-fit border outline-none focus:border-red-500 rounded-lg p-2"
                     type="text"
                     placeholder="Name colum"
                   />
                   <div className="flex items-center">
                     <button
                       type="submit"
-                      className="text-[12px] bg-blue-500 p-2 my-4 rounded-lg text-black font-medium"
+                      className="dark:hover:bg-gray-500 dark:bg-gray-400 text-[12px] shadow-lg bg-blue-500 hover:bg-blue-400 p-2 my-4 rounded-lg text-black font-medium"
                     >
                       Add Colum
                     </button>
@@ -359,13 +359,13 @@ export default function Board() {
             ) : (
               <div
                 onClick={() => setstateAddColum(true)}
-                className="w-full flex items-center justify-start bg-gray-100 hover:bg-gray-200 cursor-pointer rounded-lg  h-[44px] "
+                className="w-[252px] mt-4 mr-20  p-2 flex items-center dark:hover:bg-gray-500 dark:bg-gray-400  justify-start bg-gray-100 hover:bg-gray-200 cursor-pointer rounded-lg  h-[44px] "
               >
                 <FontAwesomeIcon
                   className="px-3"
                   icon={faPlus}
                 ></FontAwesomeIcon>{" "}
-                <h3 className="text-[15px]">Add Colum</h3>
+                <h3  className="text-[15px] shadow-sm  " >Add Colum</h3>
               </div>
             )}
           </div>

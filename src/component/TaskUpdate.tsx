@@ -4,15 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import type { TaskType } from "../interface";
-import { useAppDispatch } from "../Redux/store";
 
 type Props = {
   setStateUp: Function;
   task: TaskType;
-  callData:Function
+  callUpdate:Function,
+  callRemove:Function
 };
 
-export default function TaskUpdate({ setStateUp, task ,callData }: Props) {
+export default function TaskUpdate({ setStateUp, task ,callUpdate ,callRemove }: Props) {
   const [stateDes, setStateDes] = useState(false);
   const [value, setValue] = useState<TaskType>({
     date: task.date || new Date().toString(),
@@ -21,13 +21,12 @@ export default function TaskUpdate({ setStateUp, task ,callData }: Props) {
     state: task.state || false,
     description: task.description || ""
   });
-  let dispatch = useAppDispatch()
   function handData(val: string | boolean, field: string) {
     setValue((prev) => ({ ...prev, [field]: val }));
   }
 const handlerSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
   e.preventDefault();
-  callData(value)
+  callUpdate(value)
 };
   return (
     <form
@@ -146,9 +145,15 @@ const handlerSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
 
         {/* Submit */}
         <div className="mt-4 flex justify-end">
+          <span
+            onClick={()=>callRemove()}
+            className="px-4 mr-3 py-1 bg-red-600 text-white font-light rounded text-[13px] shadow-sm hover:bg-red-700"
+          >
+            Remove task
+          </span>
           <button
             type="submit"
-            className="px-4 py-1 bg-blue-600 text-white font-light rounded shadow-sm hover:bg-blue-700"
+            className="px-4 py-1 bg-blue-600 text-white font-light rounded shadow-sm text-[13px] hover:bg-blue-700"
           >
             Save
           </button>

@@ -1,4 +1,4 @@
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import type { SettingItem } from "../interface";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faArrowLeft, faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -22,6 +22,7 @@ function handerSetting(item:SettingItem) {
     setSetting([...setting ,item.children])
   }else{
     if(item.name=="Light" || item.name=="Dark"){
+      localStorage.setItem('isMode' , item.name =='Dark' ? 'dark' : 'light')
       setStateTheme({theme:item.name})
     }
     if(item.name=='Logout'){
@@ -36,9 +37,23 @@ function handBack() {
   console.log(setting)
   setSetting(setting.slice(0,1))
 }
+function addClassDarkMode() {
+  let isMode = localStorage.getItem('isMode')
+if (isMode == 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark')
+} else {
+  document.documentElement.classList.remove('dark')
+}}
+useEffect(()=>{
+  addClassDarkMode()
+},[stateTheme])
+
+
+
+
 
 let renderSetting = setting[setting.length-1]?.map((item)=>(
-        <li key={item.id} onClick={()=>handerSetting(item)} className="px-2 flex items-center w-full py-1 rounded-md transform duration-200 hover:opacity-70 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-500">
+        <li key={item.id} onClick={()=>handerSetting(item)} className="px-2 dark:text-gray-200  flex items-center w-full py-1 rounded-md transform duration-200 hover:opacity-70 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-500">
             <button
               type="button"
               className="w-full text-left hover:text-gray-900 focus:outline-none "
@@ -54,26 +69,26 @@ let renderSetting = setting[setting.length-1]?.map((item)=>(
     <>
       {stateOpen ?       <div
         ref={handCallRef}
-        className="z-10 bg-white rounded-xl w-full max-w-xs p-6 text-gray-700 text-base leading-relaxed absolute top-12 right-6 shadow-xl"
+        className="dark:bg-bg-dark z-10 bg-white rounded-xl w-full max-w-xs p-6 text-gray-700 text-base leading-relaxed absolute top-12 right-6 shadow-xl"
         style={{ fontFeatureSettings: '"liga" 0' }}
       >
         <div className="mb-4">
-          <h3 className="text-xs font-semibold text-gray-600 uppercase select-none">
+          <h3 className="text-xs font-semibold dark:text-gray-200 text-gray-600 uppercase select-none">
             TÀI KHOẢN
           </h3>
         </div>
         <div className="flex items-center space-x-4 mb-4">
           <div
-            className="flex items-center justify-center rounded-full bg-[#1B2B44] text-white font-semibold w-10 h-10 text-sm select-none"
+            className="flex items-center justify-center rounded-full bg-[#1B2B44] dark:text-gray-200 text-white font-semibold w-10 h-10 text-sm select-none"
             aria-label="User initials VT"
           >
             VT
           </div>
           <div className="flex flex-col">
-            <span className="font-medium text-gray-900 leading-tight">
+            <span className="font-medium dark:text-gray-200 text-gray-900 leading-tight">
               Vũ Văn Thuận
             </span>
-            <span className="text-xs text-gray-600 leading-tight select-text">
+            <span className="text-xs dark:text-gray-200 text-gray-600 leading-tight select-text">
               vanthuan562004@gmail.com
             </span>
           </div>
@@ -82,7 +97,7 @@ let renderSetting = setting[setting.length-1]?.map((item)=>(
         <hr className="border-gray-300 mb-4" />
 
         <div className="mb-4">
-          <h3 className="text-xs font-semibold text-gray-600 uppercase select-none mb-2">
+          <h3 className="text-xs dark:text-gray-200 font-semibold text-gray-600 uppercase select-none mb-2">
             TRELLO
           </h3>
           {setting.length>1 ?

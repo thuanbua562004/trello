@@ -1,49 +1,54 @@
-import { useEffect, useState } from 'react'
-import SettingBoard from './SettingBoard'
-import { fetchDataBoard } from '../Redux/managetdata'
-import { useAppDispatch, type RootState } from '../Redux/store'
-import { useSelector } from 'react-redux'
-import hexToRGBA from '../until'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import SettingBoard from "./SettingBoard";
+import { fetchDataBoard } from "../Redux/managetdata";
+import { useAppDispatch, type RootState } from "../Redux/store";
+import { useSelector } from "react-redux";
+import hexToRGBA from "../until";
+import { Link } from "react-router-dom";
 
 export default function ManagerBoard() {
-  type dataType = {id:string,name:string , background:string ,userId:string}
-  const [stateSetting, setStateSetting] = useState<boolean>(false)
-  const [ref, setRef] = useState<HTMLElement | null>(null)
-  const [listBoard ,setListBoard] = useState<dataType[]|null>(null)
-  const dispatch = useAppDispatch()
-  const data = useSelector((state: RootState) => state)
-  
+  type dataType = {
+    id: string;
+    name: string;
+    background: string;
+    userId: string;
+  };
+  const [stateSetting, setStateSetting] = useState<boolean>(false);
+  const [ref, setRef] = useState<HTMLElement | null>(null);
+  const [listBoard, setListBoard] = useState<dataType[] | null>(null);
+  const dispatch = useAppDispatch();
+  const data = useSelector((state: RootState) => state);
+
   function handlerCreateBoard() {
-    setStateSetting(true)
+    setStateSetting(true);
   }
 
   function refSettingBoard(ref: HTMLElement) {
-    setRef(ref)
+    setRef(ref);
   }
 
   function handlerClose(e: MouseEvent) {
     if (ref && !ref.contains(e.target as Node)) {
-      setStateSetting(false)
+      setStateSetting(false);
     }
   }
 
   useEffect(() => {
-    document.addEventListener('mousedown', handlerClose)
+    document.addEventListener("mousedown", handlerClose);
     return () => {
-      document.removeEventListener('mousedown', handlerClose)
-    }
-  }, [ref])
+      document.removeEventListener("mousedown", handlerClose);
+    };
+  }, [ref]);
 
   useEffect(() => {
-    dispatch(fetchDataBoard())
-  }, [dispatch])
+    dispatch(fetchDataBoard());
+  }, [dispatch]);
   useEffect(() => {
-    let id = localStorage.getItem('isLogin')
-    let newBoard = data.manager.Boards.filter((item)=>item.userId==id)
-    setListBoard(newBoard)
-  }, [data.manager.Boards])
-  console.log(listBoard)
+    let id = localStorage.getItem("isLogin");
+    let newBoard = data.manager.Boards.filter((item) => item.userId == id);
+    setListBoard(newBoard);
+  }, [data.manager.Boards]);
+
   return (
     <>
       <SettingBoard
@@ -52,75 +57,75 @@ export default function ManagerBoard() {
         refSettingBoard={refSettingBoard}
       />
 
-      <div className="max-w-7xl mx-auto p-6 flex flex-col md:flex-row gap-8">
-        {/* Sidebar */}
-        <nav className="w-full md:w-64 bg-white rounded-xl shadow-md p-6 flex flex-col gap-4 sticky top-6 h-fit">
-          <a
-            href="#"
-            className="flex items-center gap-3 bg-blue-100 text-blue-900 rounded-xl py-3 px-5 shadow hover:bg-blue-200 transition"
-          >
-            <i className="fas fa-home text-lg"></i>
-            <span className="font-semibold text-base">Home</span>
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-3 text-gray-700 rounded-xl py-3 px-5 hover:bg-gray-100 transition cursor-pointer"
-          >
-            <i className="fas fa-credit-card text-lg"></i>
-            <span className="font-semibold text-base">Boards</span>
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-3 text-gray-700 rounded-xl py-3 px-5 hover:bg-gray-100 transition cursor-pointer"
-          >
-            <i className="fas fa-th-large text-lg"></i>
-            <span className="font-semibold text-base">Templates</span>
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-3 text-gray-700 rounded-xl py-3 px-5 hover:bg-gray-100 transition cursor-pointer"
-          >
-            <i className="fas fa-cog text-lg"></i>
-            <span className="font-semibold text-base">Settings</span>
-          </a>
-        </nav>
+      <>
+        <div className="dark:bg-bg-dark h-full">
+          <div className="dark:bg-bg-dark max-w-7xl mx-auto p-4 md:p-6 flex flex-col md:flex-row gap-6">
+            {/* Sidebar */}
+            <aside className="dark:bg-bg-dark w-full md:w-64 bg-white rounded-2xl shadow-xl p-5 sticky top-6">
+              <nav className="flex flex-col gap-3">
+                <a
+                  href="#"
+                  className="dark:hover:bg-gray-500 flex items-center gap-3 text-gray-700 hover:text-blue-600 rounded-xl px-4 py-3 hover:bg-gray-50 transition"
+                >
+                  <i className="fas fa-th-large text-lg"></i>
+                  <span className="text-base font-medium">Boards</span>
+                </a>
+                <a
+                  href="#"
+                  className="dark:hover:bg-gray-500 flex items-center gap-3 text-gray-700 hover:text-blue-600 rounded-xl px-4 py-3 hover:bg-gray-50 transition"
+                >
+                  <i className="fas fa-cogs text-lg"></i>
+                  <span className="text-base font-medium">Settings</span>
+                </a>
+              </nav>
+            </aside>
 
-        {/* Main content */}
-        <main className="flex-1 bg-white rounded-xl border border-gray-200 p-8 shadow-md">
-          <button
-            onClick={handlerCreateBoard}
-            type="button"
-            className="mb-8 inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 text-white font-semibold text-base rounded-md py-3 px-6 transition"
-          >
-            <i className="fas fa-plus"></i>
-            Create a board
-          </button>
+            {/* Main Content */}
+            <main className="dark:bg-bg-dark flex-1 bg-white rounded-2xl shadow-xl   p-6">
+              <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
+                <h1 className="text-xl font-semibold text-gray-800">
+                  Your Boards
+                </h1>
+                <button
+                  onClick={handlerCreateBoard}
+                  type="button"
+                  className="dark:bg-gray-400 shadow-2xl inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2.5 px-2 rounded-md transition"
+                >
+                  <i className="fas fa-plus"></i>
+                  New Board
+                </button>
+              </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {/* Ví dụ 1 board */}
-          {listBoard?.map((item)=>(
-            <Link
-              to={`/${item.id}`}
-              className="block w-full rounded-xl shadow-lg overflow-hidden relative group hover:shadow-xl transition-shadow"
-            >
-              {item?.background?.length>10 ?              
-              <img
-                alt="Mountain landscape with blue sky and distant hills"
-                className="w-full h-40 object-cover group-hover:scale-105 transition-transform"
-                src={item?.background}
-              />:
-              <div style={{backgroundColor:hexToRGBA(item?.background)}} className="w-full h-40 object-cover group-hover:scale-105 transition-transform"></div>
-              }
-              <span className="absolute left-4 bottom-4 text-white font-bold text-lg drop-shadow-lg select-none">
-                {item?.name}
-              </span>
-            </Link>
-          ))}
-
-            {/* Bạn có thể lặp thêm nhiều board ở đây */}
+              {/* Boards Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {listBoard?.map((item) => (
+                  <Link
+                    to={`/${item.id}`}
+                    key={item.id}
+                    className="group  rounded-xl shadow-md hover:shadow-lg transition overflow-hidden relative"
+                  >
+                    {item?.background?.length > 10 ? (
+                      <img
+                        src={item.background}
+                        alt={item.name}
+                        className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div
+                        style={{ backgroundColor: hexToRGBA(item?.background) }}
+                        className="w-full h-44 group-hover:scale-105 transition-transform duration-300"
+                      ></div>
+                    )}
+                    <span className="absolute bottom-3 left-4 text-white font-bold text-lg drop-shadow-lg">
+                      {item.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </main>
           </div>
-        </main>
-      </div>
+        </div>
+      </>
     </>
-  )
+  );
 }

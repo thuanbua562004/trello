@@ -1,4 +1,4 @@
-import {  ref, get,set, child, update } from "firebase/database";
+import {  ref, get,set, child, update, remove } from "firebase/database";
 import { database } from "../config/firebase";
 import type {  Column, ListTasks, TaskType } from "../interface";
 import { genIdRandom } from "../until";
@@ -80,6 +80,10 @@ export function updateColum(data: Column[] | Column) {
   }
 }
 
+export function removeColumn(id: string) {
+  console.log(id)
+  return set(ref(database, `colums/${id}`),null);
+}
 
 export function addTask(idGen:string ,idColum:string, listTaksk :string) {
   let listTask :TaskType = {id: idGen ,value :listTaksk , date: new Date().toString() }
@@ -90,4 +94,9 @@ export function addTask(idGen:string ,idColum:string, listTaksk :string) {
 export function updateTask(idColum:string ,idTask:string, data :TaskType) {
   let listTask :TaskType =data
   return update(ref(database, `colums/${idColum}/listTask/${idTask}`), listTask);
+}
+
+
+export function removeTask(idColum:string ,idTask:string,) {
+  return set(ref(database, `colums/${idColum}/listTask/${idTask}`), null);
 }
