@@ -170,8 +170,15 @@ export default function Board() {
       tolerance: 5,
     },
   });
+    const mouseSensor = useSensor(MouseSensor, {
+    // Press delay of 250ms, with tolerance of 5px of movement
+    activationConstraint: {
+      delay: 250,
+      tolerance: 5,
+    },
+  });
   const sensors = useSensors(
-    useSensor(MouseSensor),
+    mouseSensor,
    touchSensor,
   );
   function handleDragEndColumn(event: any) {
@@ -319,14 +326,10 @@ export default function Board() {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <SortableContext
-            strategy={horizontalListSortingStrategy}
-            items={columns.map((col) => col.id)}
-          >
+
             {columns.map((col) => (
               <Column addValue={addValue} key={col.id} column={col} />
             ))}
-          </SortableContext>
 
           <DragOverlay>
             {activeColumn ? (

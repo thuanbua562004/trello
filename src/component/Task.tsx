@@ -81,7 +81,6 @@
     return isValidUrl(task?.value) ? (
   <div
     data-id={task.id}
-    draggable
     ref={setNodeRef}
     {...listeners}
     {...attributes}
@@ -119,17 +118,19 @@
 
     ) : (
       <div
-        draggable
-        ref={setNodeRef}
-        {...listeners}
-        {...attributes}
-        style={style}
-      className="flex items-center cursor-pointer rounded-lg w-full px-2 my-2 bg-black/70 text-gray-400 hover:outline hover:outline-2 hover:outline-offset-1 hover:outline-white"
+    data-id={task.id}
+    ref={setNodeRef}
+    {...listeners}
+    {...attributes}
+    style={style}
+      className="flex group items-center cursor-pointer rounded-lg w-full px-2 my-2 bg-black/70 text-gray-400 hover:outline hover:outline-2 hover:outline-offset-1 hover:outline-white"
       >
+        <div className="flex items-center mb-1 group">
         {renderCheckbox()}
         <h5 onClick={() => setStateUp(true)} className="text-[15px] pl-2  w-full py-2">
           {task.value}
         </h5>
+      </div>
       </div>
     );
   }
