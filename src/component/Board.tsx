@@ -166,9 +166,14 @@ export default function Board() {
       distance: 10,
     },
   });
-const sensors = useSensors(
-  useSensor(TouchSensor)
-);
+  const touchSensor = useSensor(TouchSensor, {
+  activationConstraint: {
+    delay: 150,
+    tolerance: 5,
+  },
+});
+const sensors = useSensors(pointerSensor, touchSensor);
+
   function handleDragEndColumn(event: any) {
     let { active, over } = event;
     const oldIndex = columns.findIndex((col) => col.id === active.id);
