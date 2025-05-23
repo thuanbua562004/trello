@@ -2,7 +2,6 @@ import {
   DndContext,
   DragOverlay,
   PointerSensor,
-  useDndContext,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -19,10 +18,9 @@ import {
   type FormEvent,
   useEffect,
   useRef,
-  act,
 } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose, faL, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faClose, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, type RootState } from "../Redux/store";
 import { useParams } from "react-router-dom";
 import {

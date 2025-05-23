@@ -11,7 +11,7 @@ import {
   updateColum,
   updateTask,
 } from "../hook/databse";
-import type { Board, Column, ListTasks, TaskType } from "../interface";
+import type { Board, Column, TaskType } from "../interface";
 import { genIdRandom } from "../until";
 
 // =================== TYPES ====================

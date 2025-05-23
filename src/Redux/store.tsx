@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import managerReducer from './managetdata';
-import {  useDispatch, useSelector } from 'react-redux';
+import {  useDispatch } from 'react-redux';
 
 export const store = configureStore({
   reducer: {

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import hexToRGBA from "../until";
 import { useAppDispatch } from "../Redux/store";
-import { addBoard } from "../hook/databse";
 import { addBoardRedux } from "../Redux/managetdata";
 
 export default function SettingBoard({refSettingBoard , stateSetting ,setStateSetting} :any) {

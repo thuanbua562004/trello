@@ -71,7 +71,7 @@ export default function Column({ column, addValue }: any) {
   useEffect(() => {
     setColor(column.color);
   }, [column.color]);
-  const remove: React.MouseEventHandler<HTMLParagraphElement> = (event) => {
+  const remove: React.MouseEventHandler<HTMLParagraphElement> = () => {
     dispatch(removeColumRedux(column.id))
   };
   return (
