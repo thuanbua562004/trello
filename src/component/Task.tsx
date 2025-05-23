@@ -92,7 +92,7 @@
       <div className="h-[150px]">
         <img
           className="h-full w-full object-cover"
-          src={dataurl?.image?.url || "https://kenh14cdn.com/203336854389633024/2021/12/16/photo-1-1639661774854697837985.jpg"}
+          src={dataurl?.image?.url || "https://img.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-5529.jpg"}
           alt="Ảnh task"
         />
       </div>
