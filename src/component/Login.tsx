@@ -6,13 +6,13 @@ export default function Login() {
   let navigate = useNavigate();
   async function login() {
     try {
-      // await handlerLoginGG(); 
+      await handlerLoginGG(); 
       navigate("/"); 
     } catch (err) {
       console.error("Login failed:", err);
     }
   }
-  // let isLogin = localStorage.getItem('isLogin')
+  let isLogin = localStorage.getItem('isLogin')
   useEffect(()=>{
     if(true){
       navigate('/pM4Rdk7euFQxL5t8QJEUeJbeaA53_64792')
