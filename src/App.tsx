@@ -7,28 +7,29 @@ import PageError from "./component/PageError";
 import ProtectedRoute from "./route/Protected";
 import { store } from './Redux/store'
 import { Provider } from 'react-redux'
+import Layout from "./route/layout/layout";
 function App() {
 
 return (
     <>
-      <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          {/* Các route không cần đăng nhập */}
-          <Route element={<Layout1 />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/*" element={<PageError />} />
-          </Route>
+<Provider store={store}>
+  <BrowserRouter>
+    <Routes>
+      <Route element={<Layout1 />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<PageError />} />
+      </Route>
 
-          {/* Các route cần đăng nhập */}
-          <Route >
-            <Route path="/" element={<ManagerBoard />} />
-            <Route path="/:id" element={<Board />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+        <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<ManagerBoard />} />
+          <Route path="/:id" element={<Board />} />
+        </Route>
+      </Route>
+    </Routes>
+  </BrowserRouter>
+</Provider>
 
-      </Provider>
 
     </>
   );

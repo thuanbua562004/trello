@@ -6,7 +6,6 @@ const ProtectedRoute = ({ children } : any) => {
     const isLogin = localStorage.getItem('isLogin')
     const isAuth = isLogin || undefined;
 return isAuth ?  <>
-                    <Header/>
                     <Outlet/>
                     </> 
                     :
