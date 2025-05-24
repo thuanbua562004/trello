@@ -34,6 +34,7 @@ export default function Column({ column, addValue }: any) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.3 : 1,
+    backgroundColor: isDragging ? color : "#E2DBDB",
   };
 
   function handlerAddValue() {
@@ -86,10 +87,10 @@ export default function Column({ column, addValue }: any) {
   />
 
   <div
-    style={{ backgroundColor: hexToRGBA(color || color, 0.95), ...style }}
+  style={{ ...style, backgroundColor: hexToRGBA(color || "#E2DBDB", 0.95) }}
 
     {...listeners}
-    className="select-none w-[272px] h-[500px]  rounded-lg p-4 shadow-lg"
+    className="select-none w-[272px] max-h-[500px]  rounded-lg p-4 shadow-lg"
   >
     <div className=" select-none flex rounded-lg items-center justify-between mb-2">
       <input

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const isLogin = JSON.parse(localStorage.getItem("isLogin") || "false");
+  const isLogin = (localStorage.getItem("isLogin") || "false");
 
   useEffect(() => {
     if (isLogin) {

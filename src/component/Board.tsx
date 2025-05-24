@@ -336,7 +336,7 @@ function handleDragEndColumn(event:any) {
           items={columns.map(col => col.id)}
           strategy={horizontalListSortingStrategy}
           >
-            <div className="flex gap-3 p-3">
+            <div className="flex gap-3 p-3 w-fit h-full  ">
               {columns.map((col) => (
                 <Column key={col.id} addValue={addValue}  column={col} />
               ))}
