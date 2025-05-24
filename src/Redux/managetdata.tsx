@@ -100,13 +100,14 @@ export const removeColumRedux = createAsyncThunk('removeColumn', async (id: stri
 
 export const addTaskRedux = createAsyncThunk(
   "addTask",
-  async (data: TaskType): Promise<TaskType> => {
-    let idgeb = genIdRandom()
+  async (data: TaskType): Promise<any> => {
+  const rawId = genIdRandom();
+  const idgeb = rawId;
     let indexrandom = Number(genIdRandom().split('_')[1])
     if(data.id !==undefined && data.value!==undefined){
       await addTask(idgeb, data.id, data.value, indexrandom);
     }
-    return {id:idgeb , value:data.value,index :indexrandom};
+    return {id:idgeb, colId : data.id, value:data.value , index :indexrandom};
   }
 );
 type UpdateTaskArg = {
@@ -161,13 +162,9 @@ export const managerdata = createSlice({
 
 .addCase(fetchColumRedux.fulfilled,
   (state, action: PayloadAction<Record<string, Column>>) => {
-    console.log('payload', action.payload);
     if (!action.payload) return;
-
     let data = Object.values(action.payload);
-
     let handData = data.map((item: any) => {
-      // Sắp xếp listTask trong từng column
       if (item.listTask) {
         const sortedTasks = Object.values(item.listTask).sort((a: any, b: any) => {
           return (a.index ?? 0) - (b.index ?? 0);
@@ -177,7 +174,6 @@ export const managerdata = createSlice({
       return item;
     });
 
-    // ✅ Sắp xếp các column theo index (nếu có)
     const sortedColumns = handData.sort((a: any, b: any) => {
       return (a.index ?? 0) - (b.index ?? 0);
     });
@@ -233,10 +229,8 @@ export const managerdata = createSlice({
 
       .addCase(
         addTaskRedux.fulfilled,
-        (state, action: PayloadAction<TaskType>) => {
-          console.log(action.payload)
-          const { id } = action.payload;
-          const column = state.Colum.find((col) => col.id === id);
+        (state, action: PayloadAction<any>) => {
+          const column = state.Colum.find((col) => col.id === action.payload.colId);
           if (column) {
             if (!column.listTask) column.listTask = [];
             column.listTask.push(action.payload);

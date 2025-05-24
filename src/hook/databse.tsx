@@ -88,14 +88,15 @@ export function removeColumn(id: string) {
 }
 
 export function addTask(idGen:string ,idColum:string, listTaksk :string ,index :number) {
-  let listTask :TaskType = {id: idGen ,value :listTaksk , date: new Date().toString() ,index: index }
+  let listTask :TaskType = {id: idGen ,value :listTaksk , date: '' ,index: index }
   return set(ref(database, `colums/${idColum}/listTask/${idGen}`), listTask);
 }
 
 
 export function updateTask(idColum:string ,idTask:string, data :TaskType) {
+  console.log(idTask)
   let listTask :TaskType =data
-  return update(ref(database, `colums/${idColum}/listTask/${idTask}`), listTask);
+  return set(ref(database, `colums/${idColum}/listTask/${idTask}`), listTask);
 }
 
 
