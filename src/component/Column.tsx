@@ -34,7 +34,6 @@ export default function Column({ column, addValue }: any) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.3 : 1,
-    backgroundcolor: isDragging ? color : "#E2DBDB",
   };
 
   function handlerAddValue() {
@@ -77,7 +76,7 @@ export default function Column({ column, addValue }: any) {
   };
   return (
     <>
-<div className="relative w-[272px] min-h-[300px]">
+<div className="relative w-[272px] h-full"   ref={setNodeRef}{...attributes}  >
   <SettingCard
     remove={remove}
     CallRef={CallRef}
@@ -86,17 +85,16 @@ export default function Column({ column, addValue }: any) {
     stateOpenSetting={stateOpenSetting}
   />
 
-  {/* Đây là phần cần gắn ref và các props drag */}
   <div
-    ref={setNodeRef}
-    style={{ backgroundColor: hexToRGBA(color || "#E2DBDB", 0.95), ...style }}
-    {...attributes}
+    style={{ backgroundColor: hexToRGBA(color || color, 0.95), ...style }}
+
     {...listeners}
-  className="select-none w-[272px]  max-h-[500px] rounded-lg p-4 shadow-lg will-change-transform">
-    <div className="no-drop select-none flex rounded-lg items-center justify-between mb-2">
+    className="select-none w-[272px] h-[500px]  rounded-lg p-4 shadow-lg"
+  >
+    <div className=" select-none flex rounded-lg items-center justify-between mb-2">
       <input
         style={{ backgroundColor: color ? color : "#E2DBDB" }}
-        className="no-drop text-[15px] rounded-lg text-white outline-blue-400 px-2"
+        className=" text-[15px] rounded-lg text-white outline-blue-400 px-2"
         value={column.name}
         readOnly
       />
@@ -109,7 +107,6 @@ export default function Column({ column, addValue }: any) {
     </div>
 
     <div
-      id="drop-zone"
       className="drop-zone box-todo overflow-y-scroll px-1 max-h-[330px] scroll-container"
     >
       <SortableContext
@@ -129,7 +126,6 @@ export default function Column({ column, addValue }: any) {
 
     {!stateAdd ? (
       <div
-        data-no-drop
         onClick={() => setSateAdd(true)}
         className="box-add w-full flex items-center px-2 h-[32px] cursor-pointer my-2 hover:bg-white hover:rounded-lg"
       >
@@ -141,7 +137,7 @@ export default function Column({ column, addValue }: any) {
     )}
 
     {stateAdd ? (
-      <div data-no-drop className="input-add pt-3">
+      <div  className="input-add pt-3">
         <input
           className="dark:hover:bg-gray-500 dark:bg-gray-400 dark:placeholder-white h-[45px] w-full rounded-lg text-[15px] px-3 outline-blue-400"
           onChange={(e) => setInput(e.target.value)}

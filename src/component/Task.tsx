@@ -85,7 +85,7 @@
     {...listeners}
     {...attributes}
     style={style}
-    className="group items-center cursor-pointer overflow-hidden rounded-lg w-full  my-2 bg-black/70 text-gray-400 hover:outline hover:outline-2 hover:outline-offset-1 hover:outline-white"
+    className="group items-center cursor-pointer overflow-hidden rounded-lg   my-2 bg-black/70 text-gray-400 hover:outline hover:outline-2 hover:outline-offset-1 hover:outline-white"
   >
     {/* Phần ảnh có thể click để mở link */}
     <a href={task.value} target="_blank" rel="noopener noreferrer">
@@ -117,7 +117,7 @@
   </div>
 
     ) : (
-      <div
+    <div
     data-id={task.id}
     ref={setNodeRef}
     {...listeners}

@@ -11,7 +11,6 @@ import Column from "./Column";
 import Task from "./Task";
 import {
   horizontalListSortingStrategy,
-  rectSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
 import type { ListTasks, TaskType } from "../interface/index";
@@ -324,7 +323,7 @@ function handleDragEndColumn(event:any) {
           width: "100vw",
         }}
         ref={scrollRef}
-        className="flex overflow-x-scroll object-fill h-full w-full scroll-container"
+        className="flex overflow-x-scroll object-fill h-full w-screen scroll-container"
       >
           <DndContext
             collisionDetection={closestCenter}
@@ -337,7 +336,7 @@ function handleDragEndColumn(event:any) {
           items={columns.map(col => col.id)}
           strategy={horizontalListSortingStrategy}
           >
-            <div className="flex flex-row gap-4 overflow-x-auto p-4">
+            <div className="flex gap-3 p-3">
               {columns.map((col) => (
                 <Column key={col.id} addValue={addValue}  column={col} />
               ))}
