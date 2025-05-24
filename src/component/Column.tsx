@@ -77,7 +77,7 @@ export default function Column({ column, addValue }: any) {
   };
   return (
     <>
-<div className="relative w-[272px]">
+<div className="relative w-[272px] min-h-[300px]">
   <SettingCard
     remove={remove}
     CallRef={CallRef}
@@ -92,8 +92,7 @@ export default function Column({ column, addValue }: any) {
     style={{ backgroundColor: hexToRGBA(color || "#E2DBDB", 0.95), ...style }}
     {...attributes}
     {...listeners}
-    className="select-none w-[272px] max-h-[500px] rounded-lg p-4 shadow-lg"
-  >
+  className="select-none w-[272px]  max-h-[500px] rounded-lg p-4 shadow-lg will-change-transform">
     <div className="no-drop select-none flex rounded-lg items-center justify-between mb-2">
       <input
         style={{ backgroundColor: color ? color : "#E2DBDB" }}
