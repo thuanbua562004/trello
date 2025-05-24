@@ -1,6 +1,8 @@
 import {  ref, get,set, child, update, remove } from "firebase/database";
 import { database } from "../config/firebase";
 import type {  Column, TaskType } from "../interface";
+import { genIdRandom } from "../until";
+import { number } from "motion";
 
 const dbRef = ref(database);
 
@@ -45,12 +47,13 @@ export function fetchColum() {
     });
 }
 
-export function addColum(columId: string, name?: string , color?:string) {
+export function addColum(columId: string, name?: string , color?:string ,index?:number) {
 
   const colum = {
     id: columId,
     name: name,
-    color:color ||null
+    color:color ||null,
+    index:index
   };
 
   return set(ref(database, `colums/${columId}`), colum);
@@ -65,7 +68,7 @@ export function updateColum(data: Column[] | Column) {
         if(colum.listTask==undefined){
           delete colum.listTask
         }
-        return update(ref(database, `colums/${colum.id}`), colum);
+        return set(ref(database, `colums/${colum.id}`), colum);
       })
     );
   } else {
@@ -84,8 +87,8 @@ export function removeColumn(id: string) {
   return set(ref(database, `colums/${id}`),null);
 }
 
-export function addTask(idGen:string ,idColum:string, listTaksk :string) {
-  let listTask :TaskType = {id: idGen ,value :listTaksk , date: new Date().toString() }
+export function addTask(idGen:string ,idColum:string, listTaksk :string ,index :number) {
+  let listTask :TaskType = {id: idGen ,value :listTaksk , date: new Date().toString() ,index: index }
   return set(ref(database, `colums/${idColum}/listTask/${idGen}`), listTask);
 }
 

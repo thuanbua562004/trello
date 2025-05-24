@@ -53,23 +53,29 @@ export const fetchColumRedux = createAsyncThunk(
 
 export const addColumRedux = createAsyncThunk("addColum",async (data: Column): Promise<Column> => {
     const columId = `${data.id}_${genIdRandom()}`;
-
-    await addColum(columId,data.name,data.color );
+    let index = Number(genIdRandom().split('_')[1])
+    await addColum(columId,data.name,data.color ,index);
     return {id:columId ,name:data.name , listTask:data.listTask,color:data.color};
   }
 );
 export const updateColumRedux = createAsyncThunk("updateColum",async (data: Column[] |Column): Promise<any> => {
     let reMapData;
     const normalizeTasks = (tasks?: any[]) => {
-      return tasks?.reduce((acc, task) => {
-        if (task.id) acc[task.id] = task;
+      return tasks?.reduce((acc, task,index) => {
+    if (task.id) {
+      acc[task.id] = {
+        ...task,
+        index : index
+      };
+    }
         return acc;
       }, {} as Record<string, any>);
     };
 
     if (Array.isArray(data)) {
-      reMapData = data.map((item) => ({
+      reMapData = data.map((item,index) => ({
         ...item,
+        index:index,
         listTask: normalizeTasks(item.listTask),
       }));
     } else {
@@ -79,7 +85,8 @@ export const updateColumRedux = createAsyncThunk("updateColum",async (data: Colu
       };
     }
     await updateColum(reMapData)
-    return data
+    console.log(reMapData)
+    return reMapData
   }
 );
 
@@ -95,10 +102,11 @@ export const addTaskRedux = createAsyncThunk(
   "addTask",
   async (data: TaskType): Promise<TaskType> => {
     let idgeb = genIdRandom()
+    let indexrandom = Number(genIdRandom().split('_')[1])
     if(data.id !==undefined && data.value!==undefined){
-      await addTask(idgeb, data.id, data.value);
+      await addTask(idgeb, data.id, data.value, indexrandom);
     }
-    return {id:idgeb , value:data.value};
+    return {id:idgeb , value:data.value,index :indexrandom};
   }
 );
 type UpdateTaskArg = {
@@ -109,7 +117,6 @@ type UpdateTaskArg = {
 
 export const updateTaskRedux = createAsyncThunk<UpdateTaskArg, UpdateTaskArg>("updateTask",async ({ idCol, idTask, data })  => {
     await updateTask(idCol, idTask, data);
-    console.log('upredux')
     return { idCol, idTask, data };
   }
 );
@@ -152,20 +159,35 @@ export const managerdata = createSlice({
         console.error("Lỗi khi thêm board:", action.error.message);
       })
 
-      // Fetch Columns
-      .addCase(fetchColumRedux.fulfilled,
-        (state, action: PayloadAction<Record<string, Column>>) => {
-          if(!action.payload) return
-          let data = Object.values(action?.payload);
-          let handData = data.map((item) => {
-            if (item.listTask) {
-              return { ...item, listTask: Object.values(item.listTask) };
-            }
-            return item;
-          });
-          state.Colum = (handData)
-        }
-      )
+.addCase(fetchColumRedux.fulfilled,
+  (state, action: PayloadAction<Record<string, Column>>) => {
+    console.log('payload', action.payload);
+    if (!action.payload) return;
+
+    let data = Object.values(action.payload);
+
+    let handData = data.map((item: any) => {
+      // Sắp xếp listTask trong từng column
+      if (item.listTask) {
+        const sortedTasks = Object.values(item.listTask).sort((a: any, b: any) => {
+          return (a.index ?? 0) - (b.index ?? 0);
+        });
+        return { ...item, listTask: sortedTasks };
+      }
+      return item;
+    });
+
+    // ✅ Sắp xếp các column theo index (nếu có)
+    const sortedColumns = handData.sort((a: any, b: any) => {
+      return (a.index ?? 0) - (b.index ?? 0);
+    });
+
+    state.Colum = sortedColumns;
+
+    console.log(sortedColumns);
+  }
+)
+
       .addCase(fetchColumRedux.rejected, (state, action) => {
         console.error("Lỗi khi lấy cột:", action.error.message);
       })
@@ -185,16 +207,26 @@ export const managerdata = createSlice({
         const payload = action.payload;
 
         if (Array.isArray(payload)) {
-          state.Colum = state.Colum.map((oldCol) => {
-            const updated = payload.find((newCol) => newCol.id === oldCol.id);
-            return updated ? updated : oldCol;
+          let arr = Object.values(action.payload);
+          
+          let arrSort = arr.map((item,index) => {
+            const tasks = Object.values(item.listTask || {}); // dùng key đúng
+
+            const sortedTasks = tasks.sort((a: any, b: any) => {
+              return (a.index ?? 0) - (b.index ?? 0); 
+            });
+
+            return {
+              ...item,
+              index : index,
+              listTask: sortedTasks,
+            };
           });
-        } else {
-          state.Colum = state.Colum.map((col) =>
-            col.id === payload.id ? {...col ,color:payload.color} : col
-          );
-        }
-      })
+          state.Colum = arrSort
+          console.log("Updated columns order:", arrSort);
+        }})
+
+
       .addCase(updateColumRedux.rejected, (state, action) => {
         console.error("Lỗi khi thêm cột:", action.error.message);
       })

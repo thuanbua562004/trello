@@ -13,6 +13,7 @@ type TaskType = {
   state?:boolean|false,
   img?:string,
   description?:string
+  index?:number
 };
 
 type ListTasks = {
@@ -27,6 +28,7 @@ type ListTasks = {
   name?: string;
   color?: string;
   listTask?:TaskType[]; 
+  index?:number
 }
 
  interface Board {

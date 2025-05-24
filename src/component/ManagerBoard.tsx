@@ -17,7 +17,7 @@ export default function ManagerBoard() {
   const [ref, setRef] = useState<HTMLElement | null>(null);
   const [listBoard, setListBoard] = useState<dataType[] | null>(null);
   const dispatch = useAppDispatch();
-  const data = useSelector((state: RootState) => state);
+  const data = useSelector((state: RootState) => state.manager.Boards);
 
   function handlerCreateBoard() {
     setStateSetting(true);
@@ -45,9 +45,9 @@ export default function ManagerBoard() {
   }, [dispatch]);
   useEffect(() => {
     let id = localStorage.getItem("isLogin");
-    let newBoard = data.manager.Boards.filter((item) => item.userId == id);
+    let newBoard = data.filter((item) => item.userId == id);
     setListBoard(newBoard);
-  }, [data.manager.Boards]);
+  }, [data]);
 
   return (
     <>

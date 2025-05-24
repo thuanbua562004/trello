@@ -3,7 +3,6 @@ import {
   DndContext,
   DragOverlay,
   MouseSensor,
-  PointerSensor,
   TouchSensor,
   useSensor,
   useSensors,
@@ -12,6 +11,7 @@ import Column from "./Column";
 import Task from "./Task";
 import {
   horizontalListSortingStrategy,
+  rectSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
 import type { ListTasks, TaskType } from "../interface/index";
@@ -101,8 +101,6 @@ export default function Board() {
     setShouldUpdate(true);
     
     if (!over || active.id === over.id) return;
-    // if(over.id.length>15 )return
-    console.log("check Over" ,over.id)
     let finCol = findColumnIdByTaskId(active.id , columns)
     if(finCol ==over.id) return
 
@@ -181,18 +179,24 @@ export default function Board() {
     mouseSensor,
    touchSensor,
   );
-  function handleDragEndColumn(event: any) {
-    let { active, over } = event;
-    const oldIndex = columns.findIndex((col) => col.id === active.id);
-    const newIndex = columns.findIndex((col) => col.id === over.id);
-    if (oldIndex === -1 || newIndex === -1) return;
+function handleDragEndColumn(event:any) {
+  const { active, over } = event;
+  if (!over) return; // không có vị trí thả hợp lệ
+  setShouldUpdate(true);
 
-    const newColumns = [...columns];
-    const [moved] = newColumns.splice(oldIndex, 1);
-    newColumns.splice(newIndex, 0, moved);
+  const oldIndex = columns.findIndex((col) => col.id === active.id);
+  const newIndex = columns.findIndex((col) => col.id === over.id);
 
-    setColumns(newColumns);
-  }
+  if (oldIndex === -1 || newIndex === -1) return;
+  if (oldIndex === newIndex) return; // không đổi vị trí
+
+  const newColumns = [...columns];
+  const [moved] = newColumns.splice(oldIndex, 1);
+  newColumns.splice(newIndex, 0, moved);
+  setColumns(newColumns);
+
+}
+
   type Value = {
     idCol: string;
     value: string;
@@ -216,7 +220,7 @@ export default function Board() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("nameColum") as string;
-    if (!param.id) {
+    if (!param.id ||name=="") {
       return;
     }
     dispatch(addColumRedux({ id: param.id, name: name }));
@@ -303,6 +307,8 @@ export default function Board() {
       });
     }
   }, [dataCollum.Boards]);
+
+  console.log(columns)
   return (
     <>
       <div className=" h-full">
@@ -320,25 +326,30 @@ export default function Board() {
         ref={scrollRef}
         className="flex overflow-x-scroll object-fill h-full w-full scroll-container"
       >
-        <DndContext
-          collisionDetection={closestCenter}
-          sensors={sensors}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-        >
+          <DndContext
+            collisionDetection={closestCenter}
+            sensors={sensors}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          >
 
-            {columns.map((col) => (
-              <Column addValue={addValue} key={col.id} column={col} />
-            ))}
+          <SortableContext
+          items={columns.map(col => col.id)}
+          strategy={rectSortingStrategy}
+          >
+              {columns.map((col) => (
+                <Column key={col.id} addValue={addValue}  column={col} />
+              ))}
+          </SortableContext>
 
-          <DragOverlay>
-            {activeColumn ? (
-              <Column column={activeColumn} isDragOverlay={true} />
-            ) : activeTask ? (
-              <Task task={activeTask} />
-            ) : null}
-          </DragOverlay>
-        </DndContext>
+            <DragOverlay>
+              {activeColumn ? (
+                <Column  column={activeColumn} isDragOverlay={true} />
+              ) : activeTask ? (
+                <Task task={activeTask} />
+              ) : null}
+            </DragOverlay>
+          </DndContext>
 
           <div className="dark:bg-bg-dark w-[272px] h-fit rounded-md mt-4  p-2 mr-20">
             {stateAddColum ? (

@@ -33,7 +33,7 @@ const handlerSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
       onSubmit={handlerSubmit}
       className="fixed select-none inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
     >
-      <div className="bg-white shadow-lg border border-gray-200 rounded-xl p-4 max-w-xl w-full">
+      <div className="bg-white shadow-lg border border-gray-200 rounded-xl p-4 max-w-xl w-full mx-5">
         {/* Header */}
         <div className="flex justify-between">
           <button

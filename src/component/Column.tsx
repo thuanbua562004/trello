@@ -27,6 +27,7 @@ export default function Column({ column, addValue }: any) {
     isDragging,
   } = useSortable({
     id: column.id,
+    animateLayoutChanges: () => true
   });
 
   const style = {
@@ -76,7 +77,7 @@ export default function Column({ column, addValue }: any) {
   };
   return (
     <>
-      <div className="relative  ">
+      <div className="relative  w-[272px] ">
         <SettingCard
           remove={remove}
           CallRef={CallRef}
@@ -89,7 +90,7 @@ export default function Column({ column, addValue }: any) {
           style={style}
           {...attributes}
           {...listeners}
-          className="items-start flex gap-4 p-4"
+          className="items-start flex gap-4 p-4 h-full "
         >
           <div
             style={{ backgroundColor: hexToRGBA(color || "#E2DBDB", 0.95) }}

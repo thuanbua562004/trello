@@ -75,8 +75,8 @@ const imageIds = [
 
   {/* Background image row */}
   <div className="flex space-x-1 mb-2 justify-center">
-    {imageIds.map((item)=>(
-        <img onClick={()=>setForm(item)} className="w-10 h-10 rounded-md object-cover cursor-pointer"
+    {imageIds.map((item,index)=>(
+        <img key={index} onClick={()=>setForm(item)} className="w-10 h-10 rounded-md object-cover cursor-pointer"
         src={`${item}`}
         />
     ))}
@@ -85,8 +85,8 @@ const imageIds = [
 
   {/* Color swatches */}
   <div className="flex space-x-1 mb-4 justify-center">
-    {colorsHex.map((item)=>(
-      <button onClick={()=>setForm(item)} style={{backgroundColor:hexToRGBA(item)}} className="w-10 h-10 rounded-md "></button>
+    {colorsHex.map((item,index)=>(
+      <button key={index} onClick={()=>setForm(item)} style={{backgroundColor:hexToRGBA(item)}} className="w-10 h-10 rounded-md "></button>
     ))}
   </div>
 
