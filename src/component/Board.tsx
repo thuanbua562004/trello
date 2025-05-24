@@ -335,11 +335,13 @@ function handleDragEndColumn(event:any) {
 
           <SortableContext
           items={columns.map(col => col.id)}
-          strategy={rectSortingStrategy}
+          strategy={horizontalListSortingStrategy}
           >
+            <div className="flex flex-row gap-4 overflow-x-auto p-4">
               {columns.map((col) => (
                 <Column key={col.id} addValue={addValue}  column={col} />
               ))}
+            </div>
           </SortableContext>
 
             <DragOverlay>

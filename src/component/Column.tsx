@@ -77,104 +77,101 @@ export default function Column({ column, addValue }: any) {
   };
   return (
     <>
-      <div className="relative  w-[272px] ">
-        <SettingCard
-          remove={remove}
-          CallRef={CallRef}
-          setColorBackground={setColorBackground}
-          setSateAdd={setSateAdd}
-          stateOpenSetting={stateOpenSetting}
+<div className="relative w-[272px]">
+  <SettingCard
+    remove={remove}
+    CallRef={CallRef}
+    setColorBackground={setColorBackground}
+    setSateAdd={setSateAdd}
+    stateOpenSetting={stateOpenSetting}
+  />
+
+  {/* Đây là phần cần gắn ref và các props drag */}
+  <div
+    ref={setNodeRef}
+    style={{ backgroundColor: hexToRGBA(color || "#E2DBDB", 0.95), ...style }}
+    {...attributes}
+    {...listeners}
+    className="select-none w-[272px] max-h-[500px] rounded-lg p-4 shadow-lg"
+  >
+    <div className="no-drop select-none flex rounded-lg items-center justify-between mb-2">
+      <input
+        style={{ backgroundColor: color ? color : "#E2DBDB" }}
+        className="no-drop text-[15px] rounded-lg text-white outline-blue-400 px-2"
+        value={column.name}
+        readOnly
+      />
+      <div onClick={handSettingColum}>
+        <FontAwesomeIcon
+          icon={faEllipsis}
+          className="cursor-pointer p-1 dark:hover:bg-gray-500 hover:bg-gray-50 hover:rounded-md"
         />
-        <div
-          ref={setNodeRef}
-          style={style}
-          {...attributes}
-          {...listeners}
-          className="items-start flex gap-4 p-4 h-full "
-        >
-          <div
-            style={{ backgroundColor: hexToRGBA(color || "#E2DBDB", 0.95) }}
-            data-no-drop
-            className={`select-none  w-[272px] max-h-[500px] rounded-lg p-4 shadow-lg `}
+      </div>
+    </div>
+
+    <div
+      id="drop-zone"
+      className="drop-zone box-todo overflow-y-scroll px-1 max-h-[330px] scroll-container"
+    >
+      <SortableContext
+        items={column?.listTask?.map((t: any) => t.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {column?.listTask?.map((item: TaskType) => (
+          <Task
+            color={color}
+            idColum={column.id}
+            key={item.id}
+            task={item}
+          />
+        ))}
+      </SortableContext>
+    </div>
+
+    {!stateAdd ? (
+      <div
+        data-no-drop
+        onClick={() => setSateAdd(true)}
+        className="box-add w-full flex items-center px-2 h-[32px] cursor-pointer my-2 hover:bg-white hover:rounded-lg"
+      >
+        <FontAwesomeIcon icon={faPlus} />
+        <h5 className="select-none pl-2 text-[15px]">Add Task</h5>
+      </div>
+    ) : (
+      ""
+    )}
+
+    {stateAdd ? (
+      <div data-no-drop className="input-add pt-3">
+        <input
+          className="dark:hover:bg-gray-500 dark:bg-gray-400 dark:placeholder-white h-[45px] w-full rounded-lg text-[15px] px-3 outline-blue-400"
+          onChange={(e) => setInput(e.target.value)}
+          type="text"
+          value={input}
+          placeholder="Typing title or link"
+        />
+        <div className="action flex items-center py-3">
+          <button
+            onClick={handlerAddValue}
+            className="btn dark:hover:bg-gray-500 dark:bg-gray-400 hover:opacity-80 font-light text-[15px] text-white bg-blue-500 h-[30px] w-[80px] text-center rounded-md"
           >
-            <div className="no-drop select-none flex rounded-lg items-center justify-between mb-2">
-              <input
-                style={{ backgroundColor: color ? color : "#E2DBDB" }}
-                className={`no-drop text-[15px] rounded-lg text-white outline-blue-400  px-2`}
-                value={column.name}
-                readOnly
-              />
-              <div onClick={handSettingColum}>
-                <FontAwesomeIcon
-                  icon={faEllipsis}
-                  className="cursor-pointer p-1 dark:hover:bg-gray-500   hover:bg-gray-50 hover:rounded-md"
-                />
-              </div>
-            </div>
-            <div
-              id="drop-zone"
-              className="drop-zone box-todo overflow-y-scroll px-1 max-h-[330px] scroll-container"
-            >
-              <SortableContext
-                items={column?.listTask?.map((t: any) => t.id)}
-                strategy={verticalListSortingStrategy}
-              >
-                {column?.listTask?.map((item: TaskType) => (
-                  <Task
-                    color={color}
-                    idColum={column.id}
-                    key={item.id}
-                    task={item}
-                  />
-                ))}
-              </SortableContext>
-            </div>
-
-
-            {!stateAdd ? (
-              <div
-                data-no-drop
-                onClick={() => setSateAdd(true)}
-                className="box-add w-full flex items-center px-2 h-[32px] cursor-pointer my-2 hover:bg-white hover:rounded-lg"
-              >
-                <FontAwesomeIcon icon={faPlus} />
-                <h5 className="select-none pl-2 text-[15px]">Add Task</h5>
-              </div>
-            ) : (
-              ""
-            )}
-
-            {stateAdd ? (
-              <div data-no-drop className="input-add pt-3 ">
-                <input
-                  className="dark:hover:bg-gray-500 dark:bg-gray-400 dark:placeholder-white  h-[45px] w-full rounded-lg text-[15px] px-3 outline-blue-400"
-                  onChange={(e) => setInput(e.target.value)}
-                  type="text"
-                  value={input}
-                  placeholder="Typing title or link"
-                />
-                <div className="action flex items-center py-3">
-                  <button
-                    onClick={handlerAddValue}
-                    className="btn dark:hover:bg-gray-500 dark:bg-gray-400  hover:opacity-80 font-light   text-[15px] text-white bg-blue-500 h-[30px] w-[80px] text-center rounded-md"
-                  >
-                    Add
-                  </button>
-                  <p onClick={() => setSateAdd(false)}>
-                    <FontAwesomeIcon
-                      className="p-3"
-                      onClick={handlerAddValue}
-                      icon={faClose}
-                    ></FontAwesomeIcon>
-                  </p>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
+            Add
+          </button>
+          <p onClick={() => setSateAdd(false)}>
+            <FontAwesomeIcon
+              className="p-3"
+              onClick={handlerAddValue}
+              icon={faClose}
+            />
+          </p>
         </div>
       </div>
+    ) : (
+      ""
+    )}
+  </div>
+</div>
+
     </>
   );
 }
