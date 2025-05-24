@@ -96,7 +96,7 @@ export function addTask(idGen:string ,idColum:string, listTaksk :string ,index :
 export function updateTask(idColum:string ,idTask:string, data :TaskType) {
   console.log(idTask)
   let listTask :TaskType =data
-  return set(ref(database, `colums/${idColum}/listTask/${idTask}`), listTask);
+  return update(ref(database, `colums/${idColum}/listTask/${idTask}`), listTask);
 }
 
 
