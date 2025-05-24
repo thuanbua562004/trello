@@ -6,19 +6,18 @@ import { useEffect, useState } from "react";
 export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const isLogin = localStorage.getItem("isLogin") === "true"; // ✅ Ép kiểu rõ ràng
+  const isLogin = localStorage.getItem("isLogin") === "true"; 
 
   useEffect(() => {
     if (isLogin) {
-      navigate("/", { replace: true }); // ✅ Thêm replace để tránh history loop
+      navigate("/", { replace: true }); 
     }
   }, [isLogin, navigate]);
 
   async function login() {
     try {
       setLoading(true);
-      await handlerLoginGG(); // Login thành công thì mới lưu
-      localStorage.setItem("isLogin", "true"); // ✅ Cập nhật trạng thái
+      await handlerLoginGG();
       navigate("/", { replace: true });
     } catch (err) {
       console.error("Login failed:", err);
