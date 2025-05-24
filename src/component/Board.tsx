@@ -170,7 +170,7 @@ export default function Board() {
     const mouseSensor = useSensor(MouseSensor, {
     // Press delay of 250ms, with tolerance of 5px of movement
     activationConstraint: {
-      delay: 250,
+      delay: 200,
       tolerance: 5,
     },
   });
