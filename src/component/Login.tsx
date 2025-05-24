@@ -32,7 +32,7 @@ export default function Login() {
         <h3 className="text-[30px] py-5 font-medium text-center">Welcome Trello App</h3>
 
         <div
-          onClick={!loading ? login : null}
+          onClick={login}
           className="action flex bg-blue-300 justify-around rounded-md shadow-sm h-[50px] my-3 max-w-sm items-center cursor-pointer hover:bg-blue-50 transform ease-linear duration-200"
         >
           {logo.iconGoogle}

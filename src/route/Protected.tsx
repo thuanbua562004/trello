@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const ProtectedRoute = ({ children } : any) => {
     const isLogin = localStorage.getItem('isLogin')
     const isAuth = isLogin || undefined;
-return isAuth ?  <>
+return isAuth ?     <>
                     <Outlet/>
                     </> 
                     :
