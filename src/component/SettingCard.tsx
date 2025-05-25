@@ -1,9 +1,13 @@
+import { sortTasksInColumn } from "../Redux/managetdata";
+import { useAppDispatch } from "../Redux/store";
+
 type Props = {
   CallRef: (node: HTMLElement | null) => void;
   setSateAdd: Function;
   stateOpenSetting: boolean;
   setColorBackground: Function;
-  remove :React.MouseEventHandler
+  remove :React.MouseEventHandler,
+  id:string
 };
 const colors = [
   "#4AC18E",
@@ -22,8 +26,14 @@ export default function SettingCart({
   setSateAdd,
   CallRef,
   setColorBackground,
-  remove
+  remove,
+  id
 }: Props) {
+  const dispatch = useAppDispatch()
+
+  function handerSort(params:any) {
+    dispatch(sortTasksInColumn(params));
+  }
   return (
     <>
       {stateOpenSetting ? (
@@ -47,10 +57,10 @@ export default function SettingCart({
             <h3 className="group  cursor-pointer   relative   hover:bg-gray-400 py-1 pl-1 rounded-lg">
               Sort By…
               <ul className="dark:bg-bg-dark hidden group-hover:block -right-20 w-[200px] rounded-lg shadow-lg absolute bg-blue-50 ">
-                <li className="w-full h-[45px] dark:hover:bg-gray-500 hover:bg-blue-200 px-3 rounded-md  flex items-center">
+                <li onClick={()=>handerSort({ colId: id, field: "value", order: "asc" })}  className="w-full h-[45px] dark:hover:bg-gray-500 hover:bg-blue-200 px-3 rounded-md  flex items-center">
                   Name
                 </li>
-                <li className="w-full h-[45px] dark:hover:bg-gray-500 hover:bg-blue-200 px-3 rounded-md  flex items-center">
+                <li onClick={()=>handerSort({colId: id, field: "date", order: "desc" })} className="w-full h-[45px] dark:hover:bg-gray-500 hover:bg-blue-200 px-3 rounded-md  flex items-center">
                   Date{" "}
                 </li>
               </ul>

@@ -37,7 +37,7 @@ import hexToRGBA, { configPath, findColumnIdByTaskId } from "../until";
 export default function Board() {
   const [pointerPos, setPointerPos] = useState<{x: number, y: number} | null>(null);
   const [background, setBackground] = useState<string>("");
-  const dataCollum = useSelector((state: RootState) => state.manager);
+  const dataColum = useSelector((state: RootState) => state.manager);
   let dispatch = useAppDispatch();
   let param = useParams<{ id: string }>();
   const [stateAddColum, setstateAddColum] = useState<boolean>(false);
@@ -204,7 +204,7 @@ function handleDragEndColumn(event:any) {
   function addValue(value: Value) {
     if (!value.value.trim()) return;
     const newTask: TaskType = {
-      id: Date.now().toString(), // Hoặc dùng uuid()
+      id: Date.now().toString(),
       value: value.value,
     };
     setColumns((pre) =>
@@ -229,10 +229,10 @@ function handleDragEndColumn(event:any) {
     dispatch(fetchColumRedux());
   }, []);
   useEffect(() => {
-    if (dataCollum.Colum) {
+   if (dataColum.Colum) {
       const rawId = param.id || "";
       let idBoard = configPath(rawId);
-      const result = dataCollum.Colum.filter((item) => {
+      const result = dataColum.Colum.filter((item) => {
       let idCloum = configPath(item.id);
         return idBoard == idCloum;
       });
@@ -244,7 +244,7 @@ function handleDragEndColumn(event:any) {
       }));
       setColumns(converted);
     }
-  }, [dataCollum.Colum]);
+  }, [dataColum.Colum]); 
   useEffect(() => {
     if (shouldUpdate) {
       dispatch(updateColumRedux(columns));
@@ -299,13 +299,13 @@ function handleDragEndColumn(event:any) {
   useEffect(() => {
     let idBoard = param.id;
     if (idBoard) {
-      dataCollum.Boards.forEach((item) => {
+      dataColum.Boards.forEach((item) => {
         if (item.id == idBoard) {
           setBackground(item.background);
         }
       });
     }
-  }, [dataCollum.Boards]);
+  }, [dataColum.Boards]);
 
   console.log(columns)
   return (

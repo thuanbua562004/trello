@@ -129,12 +129,47 @@ export const removeTaskRedux = createAsyncThunk("removeTask",async ({ idCol, idT
 );
 
 
-
 // =================== SLICE ====================
 export const managerdata = createSlice({
   name: "manager",
   initialState,
-  reducers: {},
+  reducers: {
+
+sortTasksInColumn(
+  state,
+  action: PayloadAction<{ colId: string; field: string; order: "asc" | "desc" }>
+) {
+  const { colId, field, order } = action.payload;
+
+  const compare = (a: any, b: any) => {
+    let valA = a[field];
+    let valB = b[field];
+
+    if (field.toLowerCase().includes("date")) {
+      valA = new Date(valA).getTime();
+      valB = new Date(valB).getTime();
+    }
+
+    if (valA < valB) return order === "asc" ? -1 : 1;
+    if (valA > valB) return order === "asc" ? 1 : -1;
+    return 0;
+  };
+
+  state.Colum = state.Colum.map(col => {
+    if (col.id === colId && col.listTask) {
+      return {
+        ...col,
+        listTask: [...col.listTask].sort(compare),
+      };
+    }
+    return col; 
+  });
+}
+
+
+
+
+  },
   extraReducers: (builder) => {
     builder
 
@@ -289,3 +324,4 @@ export const managerdata = createSlice({
 
 // =================== EXPORT ====================
 export default managerdata.reducer;
+export const { sortTasksInColumn } = managerdata.actions;

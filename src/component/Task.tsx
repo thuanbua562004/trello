@@ -34,9 +34,8 @@
       fetchIsUrl();
     }, [task.value]);
 
-    console.log(task)
     const callUpdate = (taskItem: TaskType) => {
-        console.log(taskItem)
+      if(taskItem.value == "") return
       dispatch(updateTaskRedux({ idCol: idColum, idTask: task.id, data: taskItem }));
       setStateUp(false);
     };

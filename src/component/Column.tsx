@@ -4,7 +4,7 @@ import Task from "./Task";
 import { useSortable } from "@dnd-kit/sortable";
 import { SortableContext, verticalListSortingStrategy,} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SettingCard from "./SettingCard";
 import hexToRGBA from "../until";
 import { useAppDispatch } from "../Redux/store";
@@ -17,6 +17,11 @@ export default function Column({ column, addValue }: any) {
   const [stateOpenSetting, setStateOpenSetting] = useState(false);
   const [ref, setRef] = useState<HTMLElement | null>(null);
   const [color, setColor] = useState<string>("");
+  let refInput = useRef<null|HTMLInputElement >(null)
+  let refBtnAdd = useRef<null|HTMLButtonElement>(null)
+
+
+  
   let dispatch = useAppDispatch();
   const {
     attributes,
@@ -44,7 +49,8 @@ export default function Column({ column, addValue }: any) {
       setInput("");
     }
     setInput("");
-    setSateAdd(false);
+    refInput.current?.focus()
+
   }
   function handSettingColum() {
     setStateOpenSetting(!stateOpenSetting);
@@ -75,10 +81,30 @@ export default function Column({ column, addValue }: any) {
   const remove: React.MouseEventHandler<HTMLParagraphElement> = () => {
     dispatch(removeColumRedux(column.id))
   };
+
+useEffect(() => {
+  if (!stateAdd) return;
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handlerAddValue();
+    }
+  };
+
+  refInput.current?.focus();
+  document.addEventListener("keydown", handleEnter);
+
+  return () => {
+    document.removeEventListener("keydown", handleEnter);
+  };
+}, [stateAdd, input]); 
+
+
   return (
     <>
 <div className="relative w-[272px] h-full"   ref={setNodeRef}{...attributes}  >
   <SettingCard
+    id={column.id}
     remove={remove}
     CallRef={CallRef}
     setColorBackground={setColorBackground}
@@ -140,6 +166,7 @@ export default function Column({ column, addValue }: any) {
     {stateAdd ? (
       <div  className="input-add pt-3">
         <input
+          ref={refInput}
           className="dark:hover:bg-gray-500 dark:bg-gray-400 dark:placeholder-white h-[45px] w-full rounded-lg text-[15px] px-3 outline-blue-400"
           onChange={(e) => setInput(e.target.value)}
           type="text"
@@ -148,6 +175,7 @@ export default function Column({ column, addValue }: any) {
         />
         <div className="action flex items-center py-3">
           <button
+            ref={refBtnAdd}
             onClick={handlerAddValue}
             className="btn dark:hover:bg-gray-500 dark:bg-gray-400 hover:opacity-80 font-light text-[15px] text-white bg-blue-500 h-[30px] w-[80px] text-center rounded-md"
           >
@@ -156,7 +184,6 @@ export default function Column({ column, addValue }: any) {
           <p onClick={() => setSateAdd(false)}>
             <FontAwesomeIcon
               className="p-3"
-              onClick={handlerAddValue}
               icon={faClose}
             />
           </p>

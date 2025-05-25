@@ -61,7 +61,7 @@ export default function TaskUpdate({ setStateUp, task, callUpdate, callRemove }:
   }, [value.date]);
 
   return (
-    <form
+    <div
       className="fixed select-none inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
     >
       <div className="bg-white shadow-lg border border-gray-200 rounded-xl p-4 max-w-xl w-full mx-5">
@@ -174,6 +174,6 @@ export default function TaskUpdate({ setStateUp, task, callUpdate, callRemove }:
           </button>
         </div>
       </div>
-    </form>
+    </div>
   );
 }
