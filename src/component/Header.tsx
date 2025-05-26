@@ -4,6 +4,7 @@ import Setting from "./Setting";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { Profile } from "../interface";
+import logo from "../assets";
 
 export default function Header() {
   const [storedProfile, setStoredProfile] = useState<Profile | null>(null);
@@ -61,7 +62,7 @@ export default function Header() {
             <img
               loading="lazy" 
               className="w-[25px] h-[25px] object-cover rounded-full cursor-pointer"
-              src={storedProfile?.img}
+              src={logo.imgAcount}
               alt="User avatar"
             />
           </div>

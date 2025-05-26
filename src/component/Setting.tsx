@@ -83,11 +83,12 @@ let renderSetting = setting[setting.length-1]?.map((item)=>(
           </h3>
         </div>
         <div className="flex items-center space-x-4 mb-4">
-          <img
+          <div
             className="flex items-center justify-center rounded-full bg-[#1B2B44] dark:text-gray-200 text-white font-semibold w-10 h-10 text-sm select-none"
-            src={storedProfile?.img}
-         >
-          </img>
+            aria-label="User initials VT"
+          >
+            {storedProfile?.name.split('')[0]}
+          </div>
           <div className="flex flex-col">
             <span className="font-medium dark:text-gray-200 text-gray-900 leading-tight">
               {storedProfile?.name}
