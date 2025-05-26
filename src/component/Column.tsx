@@ -11,7 +11,7 @@ import { useAppDispatch } from "../Redux/store";
 import { addTaskRedux, removeColumRedux, updateColumRedux } from "../Redux/managetdata";
 import type { Column, TaskType } from "../interface";
 
-export default function Column({ column, addValue }: any) {
+ export default function Column({ column, addValue }: any) {
   const [input, setInput] = useState("");
   const [stateAdd, setSateAdd] = useState(false);
   const [stateOpenSetting, setStateOpenSetting] = useState(false);
@@ -102,7 +102,7 @@ useEffect(() => {
 
   return (
     <>
-<div className="relative w-[272px] h-full"   ref={setNodeRef}{...attributes}  >
+<div className="relative w-[272px] h-screen"   ref={setNodeRef}{...attributes}  >
   <SettingCard
     id={column.id}
     remove={remove}

@@ -307,7 +307,6 @@ function handleDragEndColumn(event:any) {
     }
   }, [dataColum.Boards]);
 
-  console.log(columns)
   return (
     <>
       <div className=" h-full">
@@ -336,7 +335,7 @@ function handleDragEndColumn(event:any) {
           items={columns.map(col => col.id)}
           strategy={horizontalListSortingStrategy}
           >
-            <div className="flex gap-3 p-3 w-fit h-full  ">
+            <div className="flex gap-3 p-3  max-h-screen  ">
               {columns.map((col) => (
                 <Column key={col.id} addValue={addValue}  column={col} />
               ))}

@@ -5,6 +5,9 @@ export function handlerLoginGG() {
   return signInWithPopup(auth, provider)
     .then((result ) => {
       const user = result.user;
+      console.log(user)
+      let profile = {name : user.displayName, email:user.email,img : user.photoURL}
+      localStorage.setItem("userProfile", JSON.stringify(profile));
       localStorage.setItem('isLogin',user.uid)
 
     }).catch((error ) => {

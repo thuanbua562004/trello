@@ -1,33 +1,40 @@
 import { faMattressPillow, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Setting from "./Setting";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import type { Profile } from "../interface";
 
 export default function Header() {
+  const [storedProfile, setStoredProfile] = useState<Profile | null>(null);
+
   const [stateOpen, setStateOpen] = useState<boolean>(false);
-  const [refAcount, setRefAcount] = useState<HTMLElement | null>(null);
+  const refAccount = useRef<HTMLElement | null>(null);
 
   const toggleMenu = () => setStateOpen(prev => !prev);
   const closeMenu = () => setStateOpen(false);
 
-  function handCallRef(el: HTMLElement) {
-    setRefAcount(el);
+  function handCallRef(el: HTMLElement | null) {
+    refAccount.current = el;
   }
 
   useEffect(() => {
     const handleMouseDown = (e: MouseEvent) => {
-      if (refAcount && !refAcount.contains(e.target as Node)) {
+      if (refAccount.current && !refAccount.current.contains(e.target as Node)) {
         closeMenu();
       }
     };
-
     document.addEventListener("mousedown", handleMouseDown);
     return () => {
       document.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [refAcount]);
-
+  }, []);
+  useEffect(()=>{
+  let storedProfile = localStorage.getItem("userProfile");
+  if(storedProfile){
+    setStoredProfile(JSON.parse(storedProfile))
+  }
+  },[])
   return (
     <>
       <Setting handCallRef={handCallRef} stateOpen={stateOpen} />
@@ -52,8 +59,9 @@ export default function Header() {
         <div onClick={toggleMenu} className="action flex items-center w-3/12 justify-end relative">
           <div className="w-8 h-8 hover:bg-gray-200 dark:hover:bg-gray-400 flex items-center justify-center rounded-lg">
             <img
+              loading="lazy" 
               className="w-[25px] h-[25px] object-cover rounded-full cursor-pointer"
-              src="https://thanhnien.mediacdn.vn/uploaded/trucdl/2020_09_02/hansoheethegioihonnhanxinhdep1_PMNH.png?width=500"
+              src={storedProfile?.img}
               alt="User avatar"
             />
           </div>

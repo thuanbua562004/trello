@@ -85,7 +85,6 @@ export const updateColumRedux = createAsyncThunk("updateColum",async (data: Colu
       };
     }
     await updateColum(reMapData)
-    console.log(reMapData)
     return reMapData
   }
 );
@@ -215,7 +214,6 @@ sortTasksInColumn(
 
     state.Colum = sortedColumns;
 
-    console.log(sortedColumns);
   }
 )
 

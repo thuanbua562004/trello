@@ -37,4 +37,9 @@ type ListTasks = {
   name: string;
   background: string;
 }
-export type { SettingItem, TaskType, ListTasks ,Column , Board };
+type Profile = {
+  name: string;
+  email: string;
+  img: string;
+};
+export type { SettingItem, TaskType, ListTasks ,Column , Board ,Profile };

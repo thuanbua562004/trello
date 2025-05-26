@@ -38,7 +38,6 @@ export default function TaskUpdate({ setStateUp, task, callUpdate, callRemove }:
   };
 
 
-
   useEffect(() => {
     if (value.date) {
       const deadlineDate = new Date(value.date);

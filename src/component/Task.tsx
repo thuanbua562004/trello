@@ -7,16 +7,21 @@
   import { useAppDispatch } from "../Redux/store";
   import { removeTaskRedux, updateTaskRedux } from "../Redux/managetdata";
 
+
+
+  function getTaskStyle(transform: any, isDragging: boolean, color?: string) {
+  return {
+    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+    zIndex: isDragging ? 9999 : undefined,
+    transition: isDragging ? "none" : "transform 300ms ease",
+    opacity: isDragging ? 0.7 : 1,
+    color: isDragging ? color : "",
+  };
+}
   export default function Task({ task, color, idColum }: any) {
     const { attributes, isDragging, listeners, setNodeRef, transform , } = useSortable({ id: task.id ,animateLayoutChanges: () => true,});
 
-    const style = {
-      transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
-      zIndex: isDragging ? 9999 : undefined,
-      transition: isDragging ? "none" : "transform 300ms ease",
-      opacity: isDragging ? 0.7 : 1,
-      color: isDragging ? color : "",
-    };
+    const style = getTaskStyle(transform, isDragging, color);
 
     const [dataurl, setDataUrl] = useState<any>(null);
     const [stateUp, setStateUp] = useState(false);
@@ -40,7 +45,7 @@
       setStateUp(false);
     };
 
-    const callRemove = () => {
+    const callRemove =  () => {
       dispatch(removeTaskRedux({ idCol: idColum, idTask: task.id }));
       setStateUp(false);
     };
@@ -132,6 +137,6 @@
           {task.value}
         </h5>
       </div>
-      </div>
+    </div>
     );
   }

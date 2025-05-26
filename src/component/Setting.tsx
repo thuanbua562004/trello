@@ -1,11 +1,18 @@
 import {useEffect, useState } from "react";
-import type { SettingItem } from "../interface";
+import type { Profile, SettingItem } from "../interface";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faArrowLeft, faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { handerLogout } from "../hook/handlerGG";
 import { useNavigate } from "react-router-dom";
+import { addClassDarkMode } from "../until";
+interface SettingProps {
+  handCallRef: React.RefCallback<HTMLDivElement> | React.RefObject<HTMLDivElement> | null;
+  stateOpen: boolean;
+}
 
-function Setting({handCallRef ,stateOpen}: any) {
+function Setting({handCallRef ,stateOpen}: SettingProps) {
+const [storedProfile, setStoredProfile] = useState<Profile | null>(null);
+
 const [setting ,setSetting] = useState<SettingItem[][]>([[
   {id :"1",to:"" ,name:"Acount"},
   {id :"2",to:"" ,name:"Opration"},
@@ -15,6 +22,7 @@ const [setting ,setSetting] = useState<SettingItem[][]>([[
   {id :"6",to:"" ,name:"Help"},
   {id :"7",to:"" ,name:"Logout"},
 ]])
+
 const [stateTheme , setStateTheme ] = useState<{theme:string}>({theme:'light'})
 let navigete =useNavigate()
 function handerSetting(item:SettingItem) {
@@ -34,23 +42,20 @@ function handerSetting(item:SettingItem) {
 }
 function handBack() {
   if(setting.length==0) return
-  console.log(setting)
-  setSetting(setting.slice(0,1))
+    setSetting(prev => prev.slice(0, -1));
 }
-function addClassDarkMode() {
-  let isMode = localStorage.getItem('isMode')
-if (isMode == 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-  document.documentElement.classList.add('dark')
-} else {
-  document.documentElement.classList.remove('dark')
-}}
+
 useEffect(()=>{
   addClassDarkMode()
 },[stateTheme])
+  useEffect(()=>{
+const stored = localStorage.getItem("userProfile");
 
-
-
-
+if (stored) {
+  const storedProfile = JSON.parse(stored);
+  setStoredProfile(storedProfile)
+}
+  },[])
 
 let renderSetting = setting[setting.length-1]?.map((item)=>(
         <li key={item.id} onClick={()=>handerSetting(item)} className="px-2 dark:text-gray-200  flex items-center w-full py-1 rounded-md transform duration-200 hover:opacity-70 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-500">
@@ -78,18 +83,17 @@ let renderSetting = setting[setting.length-1]?.map((item)=>(
           </h3>
         </div>
         <div className="flex items-center space-x-4 mb-4">
-          <div
+          <img
             className="flex items-center justify-center rounded-full bg-[#1B2B44] dark:text-gray-200 text-white font-semibold w-10 h-10 text-sm select-none"
-            aria-label="User initials VT"
-          >
-            VT
-          </div>
+            src={storedProfile?.img}
+         >
+          </img>
           <div className="flex flex-col">
             <span className="font-medium dark:text-gray-200 text-gray-900 leading-tight">
-              Vũ Văn Thuận
+              {storedProfile?.name}
             </span>
             <span className="text-xs dark:text-gray-200 text-gray-600 leading-tight select-text">
-              vanthuan562004@gmail.com
+              {storedProfile?.email}
             </span>
           </div>
         </div>

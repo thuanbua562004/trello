@@ -2,8 +2,12 @@ import { useState } from "react";
 import hexToRGBA from "../until";
 import { useAppDispatch } from "../Redux/store";
 import { addBoardRedux } from "../Redux/managetdata";
-
-export default function SettingBoard({refSettingBoard , stateSetting ,setStateSetting} :any) {
+interface SettingBoardProps {
+  refSettingBoard:  React.Ref<HTMLDivElement>;
+  stateSetting: boolean;
+  setStateSetting: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default function SettingBoard({refSettingBoard , stateSetting ,setStateSetting} :SettingBoardProps) {
   type formCreate ={
     name :string ,
     background:string

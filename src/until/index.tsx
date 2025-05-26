@@ -45,3 +45,16 @@ export const findColumnIdByTaskId = (taskId:string, columns:Column[]) => {
     })
     return idColumByTask
 };
+
+// Viết ngoài component, trên cùng file hoặc ở file utils riêng cũng được
+export function addClassDarkMode() {
+  let isMode = localStorage.getItem('isMode');
+  if (
+    isMode === 'dark' ||
+    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+}
